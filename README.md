@@ -3,7 +3,7 @@ A tool that will take a screenshot of the score when opened, and use OCR to inpu
 
 ## Preliminary Information
 1. The ScreenshotTool contains no extra dependencies that need to be downloaded by the user.
-2. The OCRTesseract tool requires dependencies that need to be downloaded by the user, the following dependencies are required: pytesseract, os, csv, csv2.
+2. The OCRTesseract tool requires dependencies that need to be downloaded by the user, the following dependencies are required: pytesseract.
 3. The ScreenshotTool saves all images in the SAME file that its located in (ie: if you have the ScreenshotTool in a folder on your desktop, all images will be saved in that folder).
 4. The OCRTesseract tool analyzes all images in the same folder that it is located in.
 5. The OCRTesseract tool does not run on its own, it needs to be ran every once in a while to analyze and input data.
