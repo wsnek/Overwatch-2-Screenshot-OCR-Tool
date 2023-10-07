@@ -99,7 +99,7 @@ if os.path.isfile(output_file):
 
 # Iterate over the screenshots in the directory
 for screenshot_file in os.listdir(screenshot_dir):
-    if screenshot_file.endswith(".png"):
+    if screenshot_file.endswith(".bmp"):
         screenshot_path = os.path.join(screenshot_dir, screenshot_file)
 
         # Check if the image has already been processed

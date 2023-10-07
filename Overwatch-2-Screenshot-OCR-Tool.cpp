@@ -114,8 +114,8 @@ int main()
             {
                 // Capture the screen
                 HDC hdcScreen = GetDC(NULL);
-                int width = GetSystemMetrics(SM_CXSCREEN);
-                int height = GetSystemMetrics(SM_CYSCREEN);
+                int width = 1920;
+                int height = 1080;
                 HDC hdcMem = CreateCompatibleDC(hdcScreen);
                 HBITMAP hBitmap = CreateCompatibleBitmap(hdcScreen, width, height);
                 HBITMAP hOldBitmap = (HBITMAP)SelectObject(hdcMem, hBitmap);
@@ -153,7 +153,7 @@ int main()
         }
 
         // Add a delay to avoid continuously taking screenshots (this is in MILLISECONDS ON WINDOWS, SECONDS ON LINUX!)
-        Sleep(5000);
+        Sleep(100);
     }
 
     return 0;
