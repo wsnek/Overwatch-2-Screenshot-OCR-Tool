@@ -26,6 +26,5 @@
     <None Include="README.md">
       <Filter>Source Files</Filter>
     </None>
-    <None Include="OCRTESSERACTPOSTPROCESSING.py" />
   </ItemGroup>
 </Project>
