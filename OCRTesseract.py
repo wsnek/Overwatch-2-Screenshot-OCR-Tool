@@ -83,6 +83,12 @@ attribute_positions = {
 # Define the directory where the screenshots are located
 screenshot_dir = "./"
 
+#Get a list of the screenshots and sort them NATURALLY!
+#Yes I know its stupid to name the variable 'screenshot_files' when we already have a 'screenshot_file' variable, but I dont care it works
+#I have *no idea* what anything after the lambda key works
+screenshot_files = os.listdir(screenshot_dir)
+screenshot_files = sorted(screenshot_files, key=lambda x: [int(s) if s.isdigit() else s for s in re.split(r'(\d+)', x)])
+
 # Initialize the results list
 results = []
 
@@ -98,7 +104,7 @@ if os.path.isfile(output_file):
                     processed_images.add(row["Image"])
 
 # Iterate over the screenshots in the directory
-for screenshot_file in os.listdir(screenshot_dir):
+for screenshot_file in screenshot_files:
     if screenshot_file.endswith(".bmp"):
         screenshot_path = os.path.join(screenshot_dir, screenshot_file)
 
