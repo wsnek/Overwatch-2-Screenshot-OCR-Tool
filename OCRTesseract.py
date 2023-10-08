@@ -3,6 +3,7 @@ import cv2
 import pytesseract
 import csv
 import os
+import re
 
 # Define the fixed positions for attribute extraction
 # Format follows: "Attribute Name": (Position X, Position Y), (Crop Height, Crop Width)
