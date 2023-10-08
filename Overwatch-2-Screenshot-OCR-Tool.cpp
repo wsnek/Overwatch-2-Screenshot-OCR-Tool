@@ -153,7 +153,7 @@ int main()
         }
 
         // Add a delay to avoid continuously taking screenshots (this is in MILLISECONDS ON WINDOWS, SECONDS ON LINUX!)
-        Sleep(100);
+        Sleep(150);
     }
 
     return 0;
