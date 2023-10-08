@@ -5,6 +5,10 @@ import csv
 import os
 import re
 
+#This is something that can be played around with (PLEASE ONLY EDIT THIS IF YOU KNOW WHAT YOU ARE DOING AND HAVE READ UP ON THIS)
+PyTessConfig = "--oem 1 --psm 6 -c tessedit_char_whitelist=0123456789"
+
+
 # Define the fixed positions for attribute extraction
 # Format follows: "Attribute Name": (Position X, Position Y), (Crop Height, Crop Width)
 attribute_positions = {
@@ -84,9 +88,7 @@ attribute_positions = {
 # Define the directory where the screenshots are located
 screenshot_dir = "./"
 
-#Get a list of the screenshots and sort them NATURALLY!
-#Yes I know its stupid to name the variable 'screenshot_files' when we already have a 'screenshot_file' variable, but I dont care it works
-#I have *no idea* what anything after the lambda key works
+# Get a list of the screenshot and sort them NATURALLY
 screenshot_files = os.listdir(screenshot_dir)
 screenshot_files = sorted(screenshot_files, key=lambda x: [int(s) if s.isdigit() else s for s in re.split(r'(\d+)', x)])
 
@@ -104,6 +106,7 @@ if os.path.isfile(output_file):
                 if "Image" in row:
                     processed_images.add(row["Image"])
 
+
 # Iterate over the screenshots in the directory
 for screenshot_file in screenshot_files:
     if screenshot_file.endswith(".bmp"):
@@ -119,13 +122,24 @@ for screenshot_file in screenshot_files:
         # Load the image
         image = cv2.imread(screenshot_path)
 
+        # Convert to grayscale
+        gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+
+        # Apply Gaussian blur to reduce noise in the image
+        denoised_image = cv2.GaussianBlur(gray_image, (5, 5), 0)
+
+        # Enhance contrast
+        clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8, 8))
+        contrast_enhanced_image = clahe.apply(denoised_image)
+
         # Extract the attribute values using pytesseract
         attributes = {"Image": screenshot_file}  # Add image name as the first attribute
+
+        text = pytesseract.image_to_string(contrast_enhanced_image, config=PyTessConfig)
+
         for attribute, (position, crop_size) in attribute_positions.items():
             x, y = position
-            crop = image[y:y + crop_size[0], x:x + crop_size[1]]
-            crop = cv2.cvtColor(crop, cv2.COLOR_BGR2GRAY)
-            _, crop = cv2.threshold(crop, 0, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)
+            crop = contrast_enhanced_image[y:y + crop_size[0], x:x + crop_size[1]]
             result = pytesseract.image_to_string(crop, config="--psm 7")
             attributes[attribute] = result.strip()
 
