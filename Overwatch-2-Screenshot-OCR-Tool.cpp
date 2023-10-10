@@ -12,6 +12,10 @@
 int width = 1920;
 int height = 1080;
 
+//Enter the Screenshot limit, after this limit is passed, the program will give you an option to delete previously saved images.
+int screenshotLimit = 50;
+
+
 using namespace std;
 namespace fs = std::filesystem;
 
@@ -108,6 +112,22 @@ bool SaveHBITMAPToFile(HBITMAP hBitmap, LPCWSTR filename)
     return true;
 }
 
+bool compareScreenshotFilenames(const std::string& a, const std::string& b)
+{   
+    if (a.length() < 11 || b.length() < 11)
+    {
+        return a < b;
+    }
+
+
+    int numberA = stoi(a.substr(11, a.length() - 15));
+    int numberB = stoi(b.substr(11, b.length() - 15));
+    
+    return numberA < numberB;
+}
+
+
+
 int main()
 {
     string trigger = "tab";
@@ -117,16 +137,58 @@ int main()
     int screenshot_count = 1; // Default starting value
 
     fs::path screenshotDir = fs::current_path(); // Get the current working directory
+
+    std::vector<std::string> screenshotFiles; // Create a vector to store the names of the screenshot files
+
     for (const auto& entry : fs::directory_iterator(screenshotDir)) {
         if (entry.is_regular_file()) {
             string filename = entry.path().filename().string();
+            //std::cout << "Found file: " << filename << std::endl;
             if (filename.find("screenshot_") == 0) {
                 int number = stoi(filename.substr(11, filename.length() - 15)); // Extract the number
+                screenshotFiles.push_back(filename);
                 screenshot_count = max(screenshot_count, number + 1); // Update the count
             }
         }
     }
 
+    std::sort(screenshotFiles.begin(), screenshotFiles.end(), compareScreenshotFilenames);
+
+    size_t excessScreenshots = screenshotFiles.size() - screenshotLimit;
+
+    uint64_t excessStorageBytes = 0;
+   
+
+
+    if (excessScreenshots > 0 && screenshotFiles.size() > static_cast<size_t>(excessScreenshots))
+    {
+        for (size_t i = 0; i < excessScreenshots; i++)
+        {
+            excessStorageBytes += fs::file_size(screenshotFiles[i]);
+        }
+
+        cout << "You have " << excessScreenshots << " excess screenshots from your set limit of " << screenshotLimit << " screenshots." << endl;
+        cout << "These excess screenshots take up " << (excessStorageBytes / (1024*1024)) << " MB of excess storage" << endl;
+        cout << "Do you want to delete the excess screenshots? (Y/N): ";
+        
+        char response;
+        cin >> response;
+
+        if (response == 'y' || response == 'Y')
+        {
+            for (size_t i = 0; i < excessScreenshots; i++)
+            {
+                fs::remove(screenshotFiles[i]);
+                std::cout << "Deleted: " << screenshotFiles[i] << std::endl;
+            }
+        }
+        
+        else
+        {
+            cout << "Excess screenshots will not be deleted." << endl;
+        }
+
+    }
     while (true)
     {
         if (GetAsyncKeyState(VK_TAB))
