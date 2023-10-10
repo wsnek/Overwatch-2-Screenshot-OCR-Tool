@@ -2,10 +2,18 @@
 #include <windows.h>
 #include <string>
 #include <ctime>
+#include <filesystem>
+#include <vector>
+#include <algorithm>
 
 //This code is designed for WINDOWS ONLY
 
+//Enter the dimensions of your screen here (default is 1920x1080)
+int width = 1920;
+int height = 1080;
+
 using namespace std;
+namespace fs = std::filesystem;
 
 bool SaveHBITMAPToFile(HBITMAP hBitmap, LPCWSTR filename)
 {
@@ -104,7 +112,20 @@ int main()
 {
     string trigger = "tab";
     bool take_screenshot = false;
-    int screenshot_count = 1;
+
+    // Determine the highest-numbered screenshot in the directory
+    int screenshot_count = 1; // Default starting value
+
+    fs::path screenshotDir = fs::current_path(); // Get the current working directory
+    for (const auto& entry : fs::directory_iterator(screenshotDir)) {
+        if (entry.is_regular_file()) {
+            string filename = entry.path().filename().string();
+            if (filename.find("screenshot_") == 0) {
+                int number = stoi(filename.substr(11, filename.length() - 15)); // Extract the number
+                screenshot_count = max(screenshot_count, number + 1); // Update the count
+            }
+        }
+    }
 
     while (true)
     {
@@ -114,8 +135,6 @@ int main()
             {
                 // Capture the screen
                 HDC hdcScreen = GetDC(NULL);
-                int width = 1920;
-                int height = 1080;
                 HDC hdcMem = CreateCompatibleDC(hdcScreen);
                 HBITMAP hBitmap = CreateCompatibleBitmap(hdcScreen, width, height);
                 HBITMAP hOldBitmap = (HBITMAP)SelectObject(hdcMem, hBitmap);
