@@ -5,7 +5,7 @@ VisualStudioVersion = 17.7.34031.279
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Overwatch-2-Screenshot-OCR-Tool", "Overwatch-2-Screenshot-OCR-Tool.vcxproj", "{CF78A81B-38D4-478D-A594-E69529D762DC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UI_Integration", "..\UI_Integration\UI_Integration.csproj", "{B4B40879-E758-4E5A-A7A9-E7BA1E0AA70E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UI", "UI\UI\UI.csproj", "{A52CD877-9D04-4F88-9601-119AF04F6309}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,18 +29,18 @@ Global
 		{CF78A81B-38D4-478D-A594-E69529D762DC}.Release|x64.Build.0 = Release|x64
 		{CF78A81B-38D4-478D-A594-E69529D762DC}.Release|x86.ActiveCfg = Release|Win32
 		{CF78A81B-38D4-478D-A594-E69529D762DC}.Release|x86.Build.0 = Release|Win32
-		{B4B40879-E758-4E5A-A7A9-E7BA1E0AA70E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B4B40879-E758-4E5A-A7A9-E7BA1E0AA70E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B4B40879-E758-4E5A-A7A9-E7BA1E0AA70E}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{B4B40879-E758-4E5A-A7A9-E7BA1E0AA70E}.Debug|x64.Build.0 = Debug|Any CPU
-		{B4B40879-E758-4E5A-A7A9-E7BA1E0AA70E}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{B4B40879-E758-4E5A-A7A9-E7BA1E0AA70E}.Debug|x86.Build.0 = Debug|Any CPU
-		{B4B40879-E758-4E5A-A7A9-E7BA1E0AA70E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B4B40879-E758-4E5A-A7A9-E7BA1E0AA70E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B4B40879-E758-4E5A-A7A9-E7BA1E0AA70E}.Release|x64.ActiveCfg = Release|Any CPU
-		{B4B40879-E758-4E5A-A7A9-E7BA1E0AA70E}.Release|x64.Build.0 = Release|Any CPU
-		{B4B40879-E758-4E5A-A7A9-E7BA1E0AA70E}.Release|x86.ActiveCfg = Release|Any CPU
-		{B4B40879-E758-4E5A-A7A9-E7BA1E0AA70E}.Release|x86.Build.0 = Release|Any CPU
+		{A52CD877-9D04-4F88-9601-119AF04F6309}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A52CD877-9D04-4F88-9601-119AF04F6309}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A52CD877-9D04-4F88-9601-119AF04F6309}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{A52CD877-9D04-4F88-9601-119AF04F6309}.Debug|x64.Build.0 = Debug|Any CPU
+		{A52CD877-9D04-4F88-9601-119AF04F6309}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{A52CD877-9D04-4F88-9601-119AF04F6309}.Debug|x86.Build.0 = Debug|Any CPU
+		{A52CD877-9D04-4F88-9601-119AF04F6309}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A52CD877-9D04-4F88-9601-119AF04F6309}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A52CD877-9D04-4F88-9601-119AF04F6309}.Release|x64.ActiveCfg = Release|Any CPU
+		{A52CD877-9D04-4F88-9601-119AF04F6309}.Release|x64.Build.0 = Release|Any CPU
+		{A52CD877-9D04-4F88-9601-119AF04F6309}.Release|x86.ActiveCfg = Release|Any CPU
+		{A52CD877-9D04-4F88-9601-119AF04F6309}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
