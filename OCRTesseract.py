@@ -109,42 +109,47 @@ if os.path.isfile(output_file):
 
 # Iterate over the screenshots in the directory
 for screenshot_file in screenshot_files:
-    if screenshot_file.endswith(".bmp"):
-        screenshot_path = os.path.join(screenshot_dir, screenshot_file)
+    if not screenshot_file.endswith(".bmp"):
+        continue
+    
+    screenshot_path = os.path.join(screenshot_dir, screenshot_file)
 
-        # Check if the image has already been processed
-        if screenshot_file in processed_images:
-            print(f"Skipping file: {screenshot_path} (already processed)")
-            continue
+    # Check if the image has already been processed
+    if screenshot_file in processed_images:
+        print(f"Skipping file: {screenshot_path} (already processed)")
+        continue
 
-        print(f"Processing file: {screenshot_path}")
+    print(f"Processing file: {screenshot_path}")
 
-        # Load the image
-        image = cv2.imread(screenshot_path)
+    # Load the image
+    image = cv2.imread(screenshot_path)
 
-        # Convert to grayscale
-        gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    # Convert to grayscale
+    gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
-        # Apply Gaussian blur to reduce noise in the image
-        denoised_image = cv2.GaussianBlur(gray_image, (5, 5), 0)
+    # Apply Gaussian blur to reduce noise in the image
+    denoised_image = cv2.GaussianBlur(gray_image, (5, 5), 0)
 
-        # Enhance contrast
-        clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8, 8))
-        contrast_enhanced_image = clahe.apply(denoised_image)
+    # Enhance contrast
+    clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8, 8))
+    contrast_enhanced_image = clahe.apply(denoised_image)
+    
+    # DEBUG: Save this image to the disk
+    cv2.imwrite("CONTR" + screenshot_file, contrast_enhanced_image) 
 
-        # Extract the attribute values using pytesseract
-        attributes = {"Image": screenshot_file}  # Add image name as the first attribute
+    # Extract the attribute values using pytesseract
+    attributes = {"Image": screenshot_file}  # Add image name as the first attribute
 
-        text = pytesseract.image_to_string(contrast_enhanced_image, config=PyTessConfig)
+    text = pytesseract.image_to_string(contrast_enhanced_image, config=PyTessConfig)
 
-        for attribute, (position, crop_size) in attribute_positions.items():
-            x, y = position
-            crop = contrast_enhanced_image[y:y + crop_size[0], x:x + crop_size[1]]
-            result = pytesseract.image_to_string(crop, config="--psm 7")
-            attributes[attribute] = result.strip()
+    for attribute, (position, crop_size) in attribute_positions.items():
+        x, y = position
+        crop = contrast_enhanced_image[y:y + crop_size[0], x:x + crop_size[1]]
+        result = pytesseract.image_to_string(crop, config="--psm 7")
+        attributes[attribute] = result.strip()
 
-        # Append the attributes to the results list
-        results.append(attributes)
+    # Append the attributes to the results list
+    results.append(attributes)
 
 # Write the results to the CSV file
 with open(output_file, "a", newline="") as csvfile:
