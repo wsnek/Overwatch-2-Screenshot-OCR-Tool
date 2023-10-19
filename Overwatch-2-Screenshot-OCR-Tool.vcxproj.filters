@@ -26,5 +26,25 @@
     <None Include="README.md">
       <Filter>Source Files</Filter>
     </None>
+    <None Include="UI\UI\UI.csproj">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="UI\UI\App.config">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="UI\UI\App.xaml.cs">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="UI\UI\MainWindow.xaml.cs">
+      <Filter>Source Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="UI\UI\App.xaml">
+      <Filter>Source Files</Filter>
+    </Page>
+    <Page Include="UI\UI\MainWindow.xaml">
+      <Filter>Source Files</Filter>
+    </Page>
   </ItemGroup>
 </Project>

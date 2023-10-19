@@ -5,8 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:UI"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Overwatch Screenshot Tool" Height="450" Width="800">
     <Grid>
-        
+        <Button Content="Start Screenshot Tool" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="200" Click="StartScreenshotTool_Click"/>
+        <TextBox x:Name="outputTextBox" HorizontalAlignment="Left" Height="200" Margin="10,50,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="400"/>
     </Grid>
 </Window>

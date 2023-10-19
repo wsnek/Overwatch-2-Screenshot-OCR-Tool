@@ -104,6 +104,8 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -139,6 +141,14 @@
   <ItemGroup>
     <None Include="OCRTesseract.py" />
     <None Include="README.md" />
+    <None Include="UI\UI\App.config" />
+    <None Include="UI\UI\App.xaml.cs" />
+    <None Include="UI\UI\MainWindow.xaml.cs" />
+    <None Include="UI\UI\UI.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="UI\UI\App.xaml" />
+    <Page Include="UI\UI\MainWindow.xaml" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
