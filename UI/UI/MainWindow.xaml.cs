@@ -33,13 +33,11 @@ namespace UI
         {
             try
             {
+                string baseDirectory = System.AppDomain.CurrentDomain.BaseDirectory;
+                string screenshotToolPath = System.IO.Path.Combine(baseDirectory, "Overwatch-2-Screenshot-OCR-Tool.exe");
+
                 Process screenshotProcess = new Process();
-                screenshotProcess.StartInfo.FileName = "PATH_TO_SCREENSHOT_EXE_HERE"; // Replace with the path to your ScreenshotTool.exe
-                // TODO: update the find screenshot.exe process to use screenshot.exe that is present in the same file as UI.exe, to prevent strange things from happening
-                // TODO: program will freeze up when the "Start screenshot Tool" picture is taken
-                // TODO: program will continue taking screenshots after the program itself is closed, closing the program should completely destroy all processes.
-                // TODO: when minimizing the application, make it go to the system tray
-                // TODO: add icon
+                screenshotProcess.StartInfo.FileName = screenshotToolPath;
                 screenshotProcess.StartInfo.UseShellExecute = false;
                 screenshotProcess.StartInfo.CreateNoWindow = true; // This will prevent the console window from opening
                 screenshotProcess.StartInfo.RedirectStandardOutput = true;
