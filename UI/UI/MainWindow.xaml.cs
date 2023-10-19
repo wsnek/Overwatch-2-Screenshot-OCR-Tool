@@ -18,9 +18,20 @@ namespace UI
     /// </summary>
     public partial class MainWindow : Window
     {
+        private Process screenshotProcess;
+
         public MainWindow()
         {
             InitializeComponent();
+            this.Closed += MainWindow_Closed;
+        }
+
+        private void MainWindow_Closed(object sender, EventArgs e)
+        {
+            if (screenshotProcess != null && !screenshotProcess.HasExited)
+            {
+                screenshotProcess.Kill();
+            }
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -36,7 +47,7 @@ namespace UI
                 string baseDirectory = System.AppDomain.CurrentDomain.BaseDirectory;
                 string screenshotToolPath = System.IO.Path.Combine(baseDirectory, "Overwatch-2-Screenshot-OCR-Tool.exe");
 
-                Process screenshotProcess = new Process();
+                screenshotProcess = new Process();
                 screenshotProcess.StartInfo.FileName = screenshotToolPath;
                 screenshotProcess.StartInfo.UseShellExecute = false;
                 screenshotProcess.StartInfo.CreateNoWindow = true; // This will prevent the console window from opening
@@ -50,16 +61,28 @@ namespace UI
                     });
                 });
 
+                screenshotProcess.EnableRaisingEvents = true;
+                screenshotProcess.Exited += ScreenshotProcess_Exited;
+
                 screenshotProcess.Start();
                 screenshotProcess.BeginOutputReadLine(); // Start asynchronous read operations on the redirected StandardOutput stream
-
-                screenshotProcess.WaitForExit();
-                screenshotProcess.Close();
             }
             catch (Exception ex)
             {
                 // Handle any exceptions here
                 MessageBox.Show("An error occurred: " + ex.Message);
+            }
+        }
+
+        private void ScreenshotProcess_Exited(object sender, EventArgs e)
+        {
+            if (!this.Dispatcher.CheckAccess())
+            {
+                this.Dispatcher.Invoke(() => this.Close());
+            }
+            else
+            {
+                this.Close();
             }
         }
     }
