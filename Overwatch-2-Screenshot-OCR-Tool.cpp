@@ -11,7 +11,7 @@
 //Enter the dimensions of your screen here (default is 1920x1080)
 int width = 1920;
 int height = 1080;
-
+//TODO: needs to use DPI aware window limit mode.
 //Enter the Screenshot limit, after this limit is passed, the program will give you an option to delete previously saved images.
 int screenshotLimit = 50;
 

@@ -34,12 +34,6 @@ namespace UI
             }
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            // Add your button click logic here
-            MessageBox.Show("Button clicked!");
-        }
-
         private void StartScreenshotTool_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -51,7 +45,7 @@ namespace UI
                 screenshotProcess.StartInfo.FileName = screenshotToolPath;
                 screenshotProcess.StartInfo.UseShellExecute = false;
                 screenshotProcess.StartInfo.CreateNoWindow = true; // This will prevent the console window from opening
-                screenshotProcess.StartInfo.RedirectStandardOutput = true;
+                screenshotProcess.StartInfo.RedirectStandardOutput = true; //Redirects output
 
                 screenshotProcess.OutputDataReceived += new DataReceivedEventHandler((s, args) =>
                 {
@@ -66,6 +60,9 @@ namespace UI
 
                 screenshotProcess.Start();
                 screenshotProcess.BeginOutputReadLine(); // Start asynchronous read operations on the redirected StandardOutput stream
+
+                // Update the Screenshot Tool status text
+                ScreenshotToolStatus.Content = "Screenshot Tool Status: Running";
             }
             catch (Exception ex)
             {
@@ -76,14 +73,31 @@ namespace UI
 
         private void ScreenshotProcess_Exited(object sender, EventArgs e)
         {
-            if (!this.Dispatcher.CheckAccess())
+            Dispatcher.Invoke(() =>
             {
-                this.Dispatcher.Invoke(() => this.Close());
-            }
-            else
+                outputTextBox.Text += "Screenshot Tool process has exited." + Environment.NewLine;
+                ScreenshotToolStatus.Content = "Screenshot Tool Status: Not Running";
+            });
+        }
+
+
+
+
+        private void CloseScreenshotTool_Click(object sender, RoutedEventArgs e)
+        {
+            if (screenshotProcess != null && !screenshotProcess.HasExited)
             {
-                this.Close();
+                screenshotProcess.CloseMainWindow(); // Attempt to close the main window
+                if (!screenshotProcess.WaitForExit(2000)) // Wait for the process to exit for 2 seconds
+                {
+                    screenshotProcess.Kill(); // Forcefully kill the process if it hasn't exited gracefully (I am not sure if this is necessary, but it works.)
+                }
+
+                // Update the Screenshot Tool status text
+                ScreenshotToolStatus.Content = "Screenshot Tool Status: Not Running";
             }
         }
+
+
     }
 }

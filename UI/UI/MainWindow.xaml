@@ -8,6 +8,9 @@
         Title="Overwatch Screenshot Tool" Height="450" Width="800">
     <Grid>
         <Button Content="Start Screenshot Tool" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="200" Click="StartScreenshotTool_Click"/>
-        <TextBox x:Name="outputTextBox" HorizontalAlignment="Left" Height="200" Margin="10,50,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="400"/>
+        <Button Content="Close Screenshot Tool" HorizontalAlignment ="Left" Margin ="10,40,10,0" VerticalAlignment="Top" Width="200" Click="CloseScreenshotTool_Click"/>
+        <Label x:Name="ScreenshotToolStatus" Content="Screenshot Tool Status: Not Running" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="80,60,0,0"/>
+
+        <TextBox x:Name="outputTextBox" HorizontalAlignment="Left" Height="200" Margin="10,80,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="400"/>
     </Grid>
 </Window>
