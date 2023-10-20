@@ -6,7 +6,7 @@ import os
 import re
 
 #This is something that can be played around with (PLEASE ONLY EDIT THIS IF YOU KNOW WHAT YOU ARE DOING AND HAVE READ UP ON THIS)
-PyTessConfig = "--oem 1 --psm 6 -c tessedit_char_whitelist=0123456789"
+PyTessConfig = "--oem 1 --psm 7 -c tessedit_char_whitelist=0123456789, tessedit_char_whitelist=\"qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM\""
 '''
   0    Orientation and script detection (OSD) only.
   1    Automatic page segmentation with OSD.
@@ -33,76 +33,76 @@ screenshot_dir = "./"
 # Define the fixed positions for attribute extraction
 # Format follows: "Attribute Name": (Position X, Position Y), (Crop Height, Crop Width)
 attribute_positions = {
-    "Tank_Eliminations_Team": ((700, 210), (25, 31)),
-    "Tank_Assists_Team": ((750, 210), (25, 31)),
-    "Tank_Deaths_Team": ((800, 210), (25, 31)),
+    "Tank_Eliminations_Team": ((700, 210), (30, 35)),
+    "Tank_Assists_Team": ((750, 210), (30, 35)),
+    "Tank_Deaths_Team": ((805, 210), (30, 35)),
     "Tank_Damage_Team": ((860, 210), (34, 100)),
     "Tank_Healing_Team": ((965, 210), (34, 100)),
     "Tank_Mitigation_Team": ((1065, 210), (34, 100)),
 
-    "DPS1_Eliminations_Team": ((700, 270), (25, 31)),
-    "DPS1_Assists_Team": ((750, 270), (25, 31)),
-    "DPS1_Deaths_Team": ((800, 270), (25, 31)),
-    "DPS1_Damage_Team": ((860, 270), (34, 100)),
-    "DPS1_Healing_Team": ((965, 270), (34, 100)),
-    "DPS1_Mitigation_Team": ((1065, 270), (34, 100)),
+    "DPS1_Eliminations_Team": ((700, 273), (30, 35)),
+    "DPS1_Assists_Team": ((750, 273), (30, 35)),
+    "DPS1_Deaths_Team": ((805, 273), (30, 35)),
+    "DPS1_Damage_Team": ((860, 273), (34, 100)),
+    "DPS1_Healing_Team": ((965, 273), (34, 100)),
+    "DPS1_Mitigation_Team": ((1065, 273), (34, 100)),
 
-    "DPS2_Eliminations_Team": ((700, 330), (25, 31)),
-    "DPS2_Assists_Team": ((750, 330), (25, 31)),
-    "DPS2_Deaths_Team": ((800, 330), (25, 31)),
-    "DPS2_Damage_Team": ((860, 330), (34, 100)),
-    "DPS2_Healing_Team": ((965, 330), (34, 100)),
-    "DPS2_Mitigation_Team": ((1065, 330), (34, 100)),
+    "DPS2_Eliminations_Team": ((700, 336), (30, 35)),
+    "DPS2_Assists_Team": ((750, 336), (30, 35)),
+    "DPS2_Deaths_Team": ((805, 336), (30, 35)),
+    "DPS2_Damage_Team": ((860, 336), (34, 100)),
+    "DPS2_Healing_Team": ((965, 336), (34, 100)),
+    "DPS2_Mitigation_Team": ((1065, 336), (34, 100)),
 
-    "Support1_Eliminations_Team": ((700, 390), (25, 31)),
-    "Support1_Assists_Team": ((750, 390), (25, 31)),
-    "Support1_Deaths_Team": ((800, 390), (25, 31)),
-    "Support1_Damage_Team": ((860, 390), (34, 100)),
-    "Support1_Healing_Team": ((965, 390), (34, 100)),
-    "Support1_Mitigation_Team": ((1065, 390), (34, 100)),
+    "Support1_Eliminations_Team": ((700, 399), (30, 35)),
+    "Support1_Assists_Team": ((750, 399), (30, 35)),
+    "Support1_Deaths_Team": ((805, 399), (30, 35)),
+    "Support1_Damage_Team": ((860, 399), (34, 100)),
+    "Support1_Healing_Team": ((965, 399), (34, 100)),
+    "Support1_Mitigation_Team": ((1065, 399), (34, 100)),
 
-    "Support2_Eliminations_Team": ((700, 450), (25, 31)),
-    "Support2_Assists_Team": ((750, 450), (25, 31)),
-    "Support2_Deaths_Team": ((800, 450), (25, 31)),
-    "Support2_Damage_Team": ((860, 450), (34, 100)),
-    "Support2_Healing_Team": ((965, 450), (34, 100)),
-    "Support2_Mitigation_Team": ((1065, 450), (34, 100)),
+    "Support2_Eliminations_Team": ((700, 462), (30, 35)),
+    "Support2_Assists_Team": ((750, 462), (30, 35)),
+    "Support2_Deaths_Team": ((805, 462), (30, 35)),
+    "Support2_Damage_Team": ((860, 462), (34, 100)),
+    "Support2_Healing_Team": ((965, 462), (34, 100)),
+    "Support2_Mitigation_Team": ((1065, 462), (34, 100)),
 
 
-    "Tank_Eliminations_Enemy": ((700, 630),(25, 31)),
-    "Tank_Assists_Enemy": ((750, 630),(25, 31)),
-    "Tank_Deaths_Enemy": ((800, 630),(25, 31)),
+    "Tank_Eliminations_Enemy": ((700, 630),(30, 35)),
+    "Tank_Assists_Enemy": ((750, 630),(30, 35)),
+    "Tank_Deaths_Enemy": ((805, 630),(30, 35)),
     "Tank_damage_Enemy": ((860, 630), (34, 100)),
     "Tank_healing_Enemy": ((965, 630), (34, 100)),
     "Tank_mitigation_Enemy": ((1065, 630), (34, 100)),
 
-    "DPS1_Eliminations_Enemy": ((700, 690),(25, 31)),
-    "DPS1_Assists_Enemy": ((750, 690),(25, 31)),
-    "DPS1_Deaths_Enemy": ((800, 690),(25, 31)),
-    "DPS1_damage_Enemy": ((860, 690),(34, 100)),
-    "DPS1_healing_Enemy": ((965, 690),(34, 100)),
-    "DPS1_mitigation_Enemy": ((1065, 690), (34, 100)),
+    "DPS1_Eliminations_Enemy": ((700, 691),(30, 35)),
+    "DPS1_Assists_Enemy": ((750, 691),(30, 35)),
+    "DPS1_Deaths_Enemy": ((805, 691),(30, 35)),
+    "DPS1_damage_Enemy": ((860, 691),(34, 100)),
+    "DPS1_healing_Enemy": ((965, 691),(34, 100)),
+    "DPS1_mitigation_Enemy": ((1065, 691), (34, 100)),
 
-    "DPS2_Eliminations_Enemy": ((700, 750),(25, 31)),
-    "DPS2_Assists_Enemy": ((750, 750),(25, 31)),
-    "DPS2_Deaths_Enemy": ((800, 750),(25, 31)),
-    "DPS2_damage_Enemy": ((860, 750), (34, 100)),
-    "DPS2_healing_Enemy": ((965, 750), (34, 100)),
-    "DPS2_mitigation_Enemy": ((1065, 750), (34, 100)),
+    "DPS2_Eliminations_Enemy": ((700, 752),(30, 35)),
+    "DPS2_Assists_Enemy": ((750, 752),(30, 35)),
+    "DPS2_Deaths_Enemy": ((805, 752),(30, 35)),
+    "DPS2_damage_Enemy": ((860, 752), (34, 100)),
+    "DPS2_healing_Enemy": ((965, 752), (34, 100)),
+    "DPS2_mitigation_Enemy": ((1065, 752), (34, 100)),
 
-    "Support1_Eliminations_Enemy": ((700, 810),(25, 31)),
-    "Support1_Assists_Enemy": ((750, 810),(25, 31)),
-    "Support1_Deaths_Enemy": ((800, 810),(25, 31)),
-    "Support1_damage_Enemy": ((860, 810), (34, 100)),
-    "Support1_healing_Enemy": ((965, 810), (34, 100)),
-    "Support1_mitigation_Enemy": ((1065, 810), (34, 100)),
+    "Support1_Eliminations_Enemy": ((700, 813),(30, 35)),
+    "Support1_Assists_Enemy": ((750, 813),(30, 35)),
+    "Support1_Deaths_Enemy": ((805, 813),(30, 35)),
+    "Support1_damage_Enemy": ((860, 813), (34, 100)),
+    "Support1_healing_Enemy": ((965, 813), (34, 100)),
+    "Support1_mitigation_Enemy": ((1065, 813), (34, 100)),
 
-    "Support2_Eliminations_Enemy": ((700, 870),(25, 31)),
-    "Support2_Assists_Enemy": ((750, 870),(25, 31)),
-    "Support2_Deaths_Enemy": ((800, 870),(25, 31)),
-    "Support2_damage_Enemy": ((860, 870), (34, 100)),
-    "Support2_healing_Enemy": ((965, 870), (34, 100)),
-    "Support2_mitigation_Enemy": ((1065, 870), (34, 100)),
+    "Support2_Eliminations_Enemy": ((700, 874),(30, 35)),
+    "Support2_Assists_Enemy": ((750, 874),(30, 35)),
+    "Support2_Deaths_Enemy": ((805, 874),(30, 35)),
+    "Support2_damage_Enemy": ((860, 874), (34, 100)),
+    "Support2_healing_Enemy": ((965, 874), (34, 100)),
+    "Support2_mitigation_Enemy": ((1065, 874), (34, 100)),
 
 }
 
@@ -153,22 +153,29 @@ for screenshot_file in screenshot_files:
     denoised_image = cv2.GaussianBlur(gray_image, (3, 3), 0)
 
     # Enhance contrast
-    clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8, 8))
-    contrast_enhanced_image = clahe.apply(denoised_image)
+    #clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8, 8))
+    #contrast_enhanced_image = clahe.apply(denoised_image)
     
     # DEBUG: Save this image to the disk
-    if i == 0: cv2.imwrite("CONTR" + screenshot_file, contrast_enhanced_image)
+    '''
+    if i == 0:
+        cv2.imwrite("CONTR0" + screenshot_file, denoised_image)
+        cv2.imwrite("CONTR1" + screenshot_file, contrast_enhanced_image)
+        cv2.imwrite("CONTR2" + screenshot_file, contrast_enhanced_image2)
+        cv2.imwrite("CONTR3" + screenshot_file, contrast_enhanced_image3)
+        cv2.imwrite("CONTR4" + screenshot_file, contrast_enhanced_image4)
+    '''
 
     # Extract the attribute values using pytesseract
     attributes = {"Image": screenshot_file}  # Add image name as the first attribute
 
-    text = pytesseract.image_to_string(contrast_enhanced_image, config=PyTessConfig)
+    #text = pytesseract.image_to_string(contrast_enhanced_image, config=PyTessConfig)
 
     for attribute, (position, crop_size) in attribute_positions.items():
         x, y = position
-        crop = contrast_enhanced_image[y:y + crop_size[0], x:x + crop_size[1]]
-        if i == 0: cv2.imwrite("CROP_" + attribute + "_" + screenshot_file, crop)
-        result = pytesseract.image_to_string(crop, config="--psm 7")
+        crop = denoised_image[y:y + crop_size[0], x:x + crop_size[1]]
+        if i == 0: cv2.imwrite("Crop_" + attribute + "_" + screenshot_file, crop)
+        result = pytesseract.image_to_string(crop, config=PyTessConfig)
         attributes[attribute] = result.strip()
 
     # Append the attributes to the results list
