@@ -47,4 +47,9 @@
       <Filter>Source Files</Filter>
     </Page>
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="UI\UI\picture.ico">
+      <Filter>Source Files</Filter>
+    </Image>
+  </ItemGroup>
 </Project>

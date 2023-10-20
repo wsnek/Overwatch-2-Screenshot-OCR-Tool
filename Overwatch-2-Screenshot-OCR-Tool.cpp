@@ -169,7 +169,7 @@ int main()
 
         cout << "You have " << excessScreenshots << " excess screenshots from your set limit of " << screenshotLimit << " screenshots." << endl;
         cout << "These excess screenshots take up " << (excessStorageBytes / (1024*1024)) << " MB of excess storage" << endl;
-        cout << "Do you want to delete the excess screenshots? (Y/N): ";
+        cout << "Do you want to delete the excess screenshots? (Y/N): " << endl;
         
         char response;
         cin >> response;

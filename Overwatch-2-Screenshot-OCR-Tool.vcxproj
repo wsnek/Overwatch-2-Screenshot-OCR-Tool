@@ -150,6 +150,9 @@
     <Page Include="UI\UI\App.xaml" />
     <Page Include="UI\UI\MainWindow.xaml" />
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="UI\UI\picture.ico" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
