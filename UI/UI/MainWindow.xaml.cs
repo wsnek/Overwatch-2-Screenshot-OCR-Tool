@@ -22,6 +22,7 @@ namespace UI
     {
         private Process screenshotProcess;
         private NotifyIcon notifyIcon;
+        private bool isScreenshotToolRunning = false;
 
         public MainWindow()
         {
@@ -31,6 +32,9 @@ namespace UI
 
             this.MinWidth = 435;
             this.MinHeight = 330;
+
+            this.MaxWidth = 500;
+            this.MaxHeight = 500;
 
             // Initialize NotifyIcon 
             notifyIcon = new NotifyIcon();
@@ -62,8 +66,16 @@ namespace UI
 
         private void StartScreenshotTool_Click(object sender, RoutedEventArgs e)
         {
+            if (isScreenshotToolRunning)
+            {
+                outputTextBox.Text += "An instance of Screenshot Tool is already running!" + Environment.NewLine;
+                return;
+            }
+
             try
             {
+                isScreenshotToolRunning = true;
+
                 string baseDirectory = System.AppDomain.CurrentDomain.BaseDirectory;
                 string screenshotToolPath = System.IO.Path.Combine(baseDirectory, "Overwatch-2-Screenshot-OCR-Tool.exe");
 
@@ -106,6 +118,7 @@ namespace UI
             {
                 // Handle any exceptions here
                 System.Windows.MessageBox.Show("An error occurred: " + ex.Message);
+                isScreenshotToolRunning = false;
             }
         }
 
@@ -115,6 +128,7 @@ namespace UI
             {
                 outputTextBox.Text += "Screenshot Tool process has exited." + Environment.NewLine;
                 ScreenshotToolStatus.Content = "Screenshot Tool Status: Not Running";
+                isScreenshotToolRunning = false;
             });
         }
 
