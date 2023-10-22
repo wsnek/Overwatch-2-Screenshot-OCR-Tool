@@ -78,16 +78,17 @@ namespace UI
                 {
                     outputTextBox.Dispatcher.Invoke(() =>
                     {
-                        outputTextBox.Text += args.Data + Environment.NewLine;
-
-                        // Check if the output text contains the user input prompt
-                        if (args.Data.Contains("Do you want to delete these excess images (Y/N):"))
+                        if (args.Data != null && args.Data.Contains("Do you want to delete the excess screenshots? (Y/N): "))
                         {
                             // Display the user prompt in a MessageBox or another UI element
                             MessageBoxResult result = System.Windows.MessageBox.Show(args.Data, "User Prompt", MessageBoxButton.YesNo);
 
                             // Send the user's response to the process
                             screenshotProcess.StandardInput.WriteLine(result == MessageBoxResult.Yes ? "Y" : "N");
+                        }
+                        else if (args.Data != null)
+                        {
+                            outputTextBox.Text += args.Data + Environment.NewLine;
                         }
                     });
                 });
@@ -119,16 +120,24 @@ namespace UI
 
         private void CloseScreenshotTool_Click(object sender, RoutedEventArgs e)
         {
-            if (screenshotProcess != null && !screenshotProcess.HasExited)
+            try
             {
-                screenshotProcess.CloseMainWindow(); // Attempt to close the main window
-                if (!screenshotProcess.WaitForExit(2000)) // Wait for the process to exit for 2 seconds
+                if (screenshotProcess != null && !screenshotProcess.HasExited)
                 {
-                    screenshotProcess.Kill(); // Forcefully kill the process if it hasn't exited gracefully
+                    screenshotProcess.CloseMainWindow(); // Attempt to close the main window
+                    if (!screenshotProcess.WaitForExit(2000)) // Wait for the process to exit for 2 seconds
+                    {
+                        screenshotProcess.Kill(); // Forcefully kill the process if it hasn't exited gracefully
+                    }
                 }
 
                 // Update the Screenshot Tool status text
                 ScreenshotToolStatus.Content = "Screenshot Tool Status: Not Running";
+            }
+            catch (Exception ex)
+            {
+                // Handle any exceptions here
+                System.Windows.MessageBox.Show("An error occurred while closing the screenshot tool: " + ex.Message);
             }
         }
 
