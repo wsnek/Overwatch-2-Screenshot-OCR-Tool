@@ -29,11 +29,13 @@ namespace UI
             this.Closed += MainWindow_Closed;
             this.StateChanged += MainWindow_StateChanged;
 
+            this.MinWidth = 435;
+            this.MinHeight = 330;
+
             // Initialize NotifyIcon 
             notifyIcon = new NotifyIcon();
             notifyIcon.Icon = new System.Drawing.Icon("picture.ico");
             notifyIcon.Visible = false; // The icon will be visible when the window is minimized
-            notifyIcon.BalloonTipText = "The app has been minimized to the system tray.";
             this.Icon = new System.Windows.Media.Imaging.BitmapImage(new Uri("picture.ico", UriKind.RelativeOrAbsolute));
             System.Windows.Application.Current.MainWindow.Icon = new System.Windows.Media.Imaging.BitmapImage(new Uri("picture.ico", UriKind.RelativeOrAbsolute));
 
@@ -136,7 +138,7 @@ namespace UI
             {
                 this.Hide(); // Hide the window
                 notifyIcon.Visible = true; // Show the icon in the system tray
-                notifyIcon.ShowBalloonTip(1000); // Display a notification
+                notifyIcon.ShowBalloonTip(1000, "Minimized to tray", "The tool has been minimized to your system tray.", ToolTipIcon.None); // Display a notification
             }
         }
 

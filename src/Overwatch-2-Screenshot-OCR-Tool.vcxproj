@@ -131,15 +131,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Overwatch-2-Screenshot-OCR-Tool.cpp">
-      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|x64'">stdcpp17</LanguageStandard>
-      <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">stdcpp17</LanguageStandard>
-      <LanguageStandard_C Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">stdc17</LanguageStandard_C>
-      <ConformanceMode Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Default</ConformanceMode>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="OCRTesseract.py" />
+    <None Include="..\scripts\OCRTesseract.py" />
+    <None Include="..\UI\UI\App.xaml.cs" />
     <None Include="README.md" />
     <None Include="UI\UI\App.config" />
     <None Include="UI\UI\App.xaml.cs" />
@@ -152,6 +145,9 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="UI\UI\picture.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\scripts\Overwatch-2-Screenshot-OCR-Tool.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
