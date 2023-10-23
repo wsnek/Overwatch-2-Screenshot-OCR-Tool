@@ -2,6 +2,7 @@
 using System.IO;
 using System.Diagnostics;
 using System.Windows;
+using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
@@ -36,6 +37,9 @@ namespace UI
             this.MaxWidth = 500;
             this.MaxHeight = 500;
 
+            outputTextBox.IsReadOnly = true;
+
+
             // Initialize NotifyIcon 
             notifyIcon = new NotifyIcon();
             notifyIcon.Icon = new System.Drawing.Icon("picture.ico");
@@ -62,6 +66,8 @@ namespace UI
             {
                 screenshotProcess.Kill();
             }
+            StopPythonScript();
+
         }
 
         private void StartScreenshotTool_Click(object sender, RoutedEventArgs e)
@@ -174,5 +180,77 @@ namespace UI
             }
             base.OnClosing(e);
         }
+
+        private void RunPythonScript()
+        {
+            try
+            {
+                string baseDirectory = System.AppDomain.CurrentDomain.BaseDirectory;
+                string pythonScriptPath = System.IO.Path.Combine(baseDirectory, "OCRTesseract.exe");
+
+                if (!File.Exists(pythonScriptPath))
+                {
+                    outputTextBox.Dispatcher.Invoke(() =>
+                    {
+                        // Notify the user if the script is not found
+                        outputTextBox.Text += "Python script not found!" + Environment.NewLine;
+                    });
+                    return;
+                }
+
+                ProcessStartInfo start = new ProcessStartInfo();
+                start.FileName = pythonScriptPath;
+                start.UseShellExecute = false;
+                start.RedirectStandardOutput = true;
+
+                using (Process process = Process.Start(start))
+                {
+                    using (StreamReader reader = process.StandardOutput)
+                    {
+                        string result = reader.ReadToEnd();
+                        outputTextBox.Dispatcher.Invoke(() =>
+                        {
+                            // Display the output in the UI
+                            outputTextBox.Text += result + Environment.NewLine;
+                        });
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Handle any exceptions here
+                System.Windows.MessageBox.Show("An error occurred while running the Python script: " + ex.Message);
+            }
+        }
+
+        private void RunPythonScript_Click(object sender, RoutedEventArgs e)
+        {
+            RunPythonScript();
+        }
+
+        private void StopPythonScript_Click(object sender, RoutedEventArgs e)
+        {
+            StopPythonScript();
+        }
+
+        private void StopPythonScript()
+        {
+            try
+            {
+                // Find and stop the OCR process
+                Process[] processes = Process.GetProcessesByName("OCRTesseract");
+                foreach (Process process in processes)
+                {
+                    process.Kill();
+                }
+            }
+            catch (Exception ex)
+            {
+                // Handle any exceptions here
+                System.Windows.MessageBox.Show("An error occurred while stopping the OCR process: " + ex.Message);
+            }
+        }
+
+
     }
 }

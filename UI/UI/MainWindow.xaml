@@ -5,11 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:UI"
         mc:Ignorable="d"
-        Title="Overwatch Screenshot Tool" Height="450" Width="800">
+        Title="Overwatch Screenshot Tool" Height="330" Width="435">
     <Grid>
-        <Button Content="Start Screenshot Tool" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="200" Click="StartScreenshotTool_Click"/>
-        <Button Content="Close Screenshot Tool" HorizontalAlignment ="Left" Margin ="10,40,10,0" VerticalAlignment="Top" Width="200" Click="CloseScreenshotTool_Click"/>
+        <Button Content="Run Screenshot Tool" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="195" Click="StartScreenshotTool_Click"/>
+        <Button Content="Stop Screenshot Tool" HorizontalAlignment ="Left" Margin ="10,40,10,0" VerticalAlignment="Top" Width="195" Click="CloseScreenshotTool_Click"/>
         <Label x:Name="ScreenshotToolStatus" Content="Screenshot Tool Status: Not Running" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,60,0,0"/>
+        <Button Content="Run OCR Process" Click="RunPythonScript_Click" HorizontalAlignment="Left" VerticalAlignment="Top" Width="195" Margin="215, 10, 0, 0"/>
+        <Button Content="Stop OCR Process" Click="StopPythonScript_Click" HorizontalAlignment="Left" VerticalAlignment="Top" Width="195" Margin="215, 40, 0, 0"/>
 
         <TextBox x:Name="outputTextBox" HorizontalAlignment="Left" Height="200" Margin="10,85,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="400"/>
     </Grid>
