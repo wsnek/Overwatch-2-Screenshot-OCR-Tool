@@ -201,20 +201,25 @@ namespace UI
                 ProcessStartInfo start = new ProcessStartInfo();
                 start.FileName = pythonScriptPath;
                 start.UseShellExecute = false;
+                start.CreateNoWindow = true; // This will prevent the command window from opening
                 start.RedirectStandardOutput = true;
 
-                using (Process process = Process.Start(start))
+                Process process = new Process();
+                process.StartInfo = start;
+                process.EnableRaisingEvents = true;
+                process.OutputDataReceived += new DataReceivedEventHandler((s, args) =>
                 {
-                    using (StreamReader reader = process.StandardOutput)
+                    outputTextBox.Dispatcher.Invoke(() =>
                     {
-                        string result = reader.ReadToEnd();
-                        outputTextBox.Dispatcher.Invoke(() =>
+                        if (args.Data != null)
                         {
-                            // Display the output in the UI
-                            outputTextBox.Text += result + Environment.NewLine;
-                        });
-                    }
-                }
+                            outputTextBox.Text += args.Data + Environment.NewLine;
+                        }
+                    });
+                });
+
+                process.Start();
+                process.BeginOutputReadLine();
             }
             catch (Exception ex)
             {
@@ -222,6 +227,7 @@ namespace UI
                 System.Windows.MessageBox.Show("An error occurred while running the Python script: " + ex.Message);
             }
         }
+
 
         private void RunPythonScript_Click(object sender, RoutedEventArgs e)
         {
