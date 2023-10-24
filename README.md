@@ -1,18 +1,19 @@
 # Overwatch-2-Screenshot-OCR-Tool
-A tool that will take a screenshot of the score when opened, and use OCR to input all scoreboard into a .csv file.
+A tool that will take a screenshot of a scoreboard and will scan the screenshots using OCR to output a CSV (comma-separated values) file.
 
 ## Preliminary Information
-1. The ScreenshotTool saves all images in the SAME file that its located in (ie: if you have the ScreenshotTool in a folder on your desktop, all images will be saved in that folder).
-2. The OCRTesseract tool analyzes all images in the same folder that it is located in.
-3. The OCRTesseract tool does not run on its own, it needs to be ran to analyze and input data.
+1. This tool requires that the "Open Leaderboard" binding be set to 'TAB' key.
+2. This tool saves all pictures and outputs the CSV results in the same file that the ScreenshotOCRTool executable is located in. 
 
 ## How to Use
-1. Compile and run ScreenshotTool.exe using **C++17 or later**
-2. Once running, every time the TAB key is pressed, a screenshot in .bmp format is taken.
-3. Compile and run OCRTesseract tool (ensure that OCRTesseract is in the same folder as the ScreenshotTool and images are located in).
-4. Data from the ScreenshotTool will be parsed into the OCRTesseract tool and data will be inputted into result.csv.
-5. Open result.csv to read data results, parse and analyze the data however you want.
+1. Start ScreenshotOCRTool.exe
+2. Press the "Start Screenshot Tool" button
+3. Press 'TAB' to take screenshots
+4. When desired, press "Stop Screenshot Tool" to stop taking screenshots
+5. To perform OCR scanning, press the "Start OCR Tool" button
+6. When the program finishes OCR scanning, it should automatically close on its own, but just incase, the button "Stop OCR Tool" is there.
+7. Open the file where ScreenshotOCRTool.exe is saved in and locate the results.csv file
+8. Open results.csv
 
-## Dependencies that need to be downloaded (Py only, No C++ dependencies need to be downloaded)
-1. PyTesseract
-2. cv2
+## Dependencies that need to be downloaded
+--- NEEDS MORE TESTING ---
