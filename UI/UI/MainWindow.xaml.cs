@@ -13,6 +13,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Forms;
 using System.ComponentModel;
+using System.Windows.Threading;
 
 namespace UI
 {
@@ -38,7 +39,6 @@ namespace UI
             this.MaxHeight = 500;
 
             outputTextBox.IsReadOnly = true;
-
 
             // Initialize NotifyIcon 
             notifyIcon = new NotifyIcon();
@@ -181,6 +181,17 @@ namespace UI
             base.OnClosing(e);
         }
 
+        private void CaptureOutputAndUpdateUI(object sender, DataReceivedEventArgs e)
+        {
+            if (e.Data != null)
+            {
+                Dispatcher.BeginInvoke(new Action(() =>
+                {
+                    outputTextBox.AppendText(e.Data + Environment.NewLine);
+                }), DispatcherPriority.Normal);
+            }
+        }
+
         private void RunPythonScript()
         {
             try
@@ -192,7 +203,6 @@ namespace UI
                 {
                     outputTextBox.Dispatcher.Invoke(() =>
                     {
-                        // Notify the user if the script is not found
                         outputTextBox.Text += "Python script not found!" + Environment.NewLine;
                     });
                     return;
@@ -201,33 +211,73 @@ namespace UI
                 ProcessStartInfo start = new ProcessStartInfo();
                 start.FileName = pythonScriptPath;
                 start.UseShellExecute = false;
-                start.CreateNoWindow = true; // This will prevent the command window from opening
+                start.CreateNoWindow = true;
                 start.RedirectStandardOutput = true;
+                start.RedirectStandardError = true;
 
                 Process process = new Process();
                 process.StartInfo = start;
                 process.EnableRaisingEvents = true;
-                process.OutputDataReceived += new DataReceivedEventHandler((s, args) =>
+                process.OutputDataReceived += CaptureOutputAndUpdateUI;
+                process.ErrorDataReceived += CaptureOutputAndUpdateUI;
+
+                process.Exited += (sender, e) =>
                 {
                     outputTextBox.Dispatcher.Invoke(() =>
                     {
-                        if (args.Data != null)
-                        {
-                            outputTextBox.Text += args.Data + Environment.NewLine;
-                        }
+                        outputTextBox.Text += "Python script processing complete." + Environment.NewLine;
                     });
-                });
+                };
 
                 process.Start();
                 process.BeginOutputReadLine();
+                process.BeginErrorReadLine();
             }
             catch (Exception ex)
             {
-                // Handle any exceptions here
                 System.Windows.MessageBox.Show("An error occurred while running the Python script: " + ex.Message);
             }
         }
 
+        private void StopPythonScript()
+        {
+            try
+            {
+                // Find and stop the OCR process
+                Process[] processes = Process.GetProcessesByName("OCRTesseract");
+                Process selectedProcess = null;
+
+                foreach (Process process in processes)
+                {
+                    if (process.MainWindowTitle == "YourUniqueTitle")
+                    {
+                        selectedProcess = process;
+                        break;
+                    }
+                }
+
+                if (selectedProcess != null)
+                {
+                    selectedProcess.Kill();
+                    outputTextBox.Dispatcher.Invoke(() =>
+                    {
+                        outputTextBox.Text += $"OCRTesseract process with PID {selectedProcess.Id} has been stopped." + Environment.NewLine;
+                    });
+                }
+                else
+                {
+                    outputTextBox.Dispatcher.Invoke(() =>
+                    {
+                        outputTextBox.Text += "OCRTesseract process not found." + Environment.NewLine;
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                // Handle any exceptions here
+                System.Windows.MessageBox.Show("An error occurred while stopping the OCR process: " + ex.Message);
+            }
+        }
 
         private void RunPythonScript_Click(object sender, RoutedEventArgs e)
         {
@@ -238,25 +288,5 @@ namespace UI
         {
             StopPythonScript();
         }
-
-        private void StopPythonScript()
-        {
-            try
-            {
-                // Find and stop the OCR process
-                Process[] processes = Process.GetProcessesByName("OCRTesseract");
-                foreach (Process process in processes)
-                {
-                    process.Kill();
-                }
-            }
-            catch (Exception ex)
-            {
-                // Handle any exceptions here
-                System.Windows.MessageBox.Show("An error occurred while stopping the OCR process: " + ex.Message);
-            }
-        }
-
-
     }
 }

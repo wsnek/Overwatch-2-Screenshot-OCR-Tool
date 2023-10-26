@@ -5,6 +5,9 @@ import csv
 import os
 import re
 
+
+pytesseract.pytesseract.tesseract_cmd = r'.\Tesseract\tesseract.exe'
+
 # Define the fixed positions for attribute extraction
 # Format follows: "Attribute Name": (Position X, Position Y), (Crop Height, Crop Width)
 attribute_positions = {
